@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Calculator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Recursive:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div id="calculator">
+        <div id="result">
+          <div id="history">
+            <p id="history-value"></p>
+          </div>
+          <div id="output">
+            <p id="output-value"></p>
+          </div>
+        </div>
+        <div id="keyboard">
+          <button class="operator" id="clear">CA</button>
+          <button class="operator" id="backspace">&#8656;</button>
+          <button class="operator" id="%">%</button>
+          <button class="operator" id="/">&#247;</button>
+          <button class="number" id="7">7</button>
+          <button class="number" id="8">8</button>
+          <button class="number" id="9">9</button>
+          <button class="operator" id="*">&times;</button>
+          <button class="number" id="4">4</button>
+          <button class="number" id="5">5</button>
+          <button class="number" id="6">6</button>
+          <button class="operator" id="-">-</button>
+          <button class="number" id="1">1</button>
+          <button class="number" id="2">2</button>
+          <button class="number" id="3">3</button>
+          <button class="operator" id="+">+</button>
+          <button class="empty" id="empty"></button>
+          <button class="number" id="0">0</button>
+          <button class="empty" id="empty"></button>
+          <button class="operator" id="=">=</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showHistory(number) {
+        document.getElementById("history-value").innerText = number;
+      }
+      function getFromHistory() {
+        return document.getElementById("history-value").innerText;
+      }
+      function showOutput(number) {
+        if (number.length < 19) {
+          document.getElementById("output-value").innerText = number;
+        }
+      }
+      function getFromOutput() {
+        return document.getElementById("output-value").innerText;
+      }
+
+      var operator = document.getElementsByClassName("operator");
+      for (var i = 0; i < operator.length; i++) {
+        operator[i].addEventListener("click", function () {
+          if (this.id == "clear") {
+            showOutput("");
+            showHistory("");
+          } else if (this.id == "backspace") {
+            var output = getFromOutput();
+            if (output) {
+              output = output.substr(0, output.length - 1);
+              showOutput(output);
+            }
+          } else {
+            var output = getFromOutput();
+            var history = getFromHistory();
+            if (output == "" && history !== "") {
+              if (isNaN(history[history.length - 1])) {
+                history = history.substr(0, history.length - 1);
+              }
+            }
+            if (output != "" || history != "") {
+              output = output == "" ? output : getFromOutput();
+              history = history + output;
+              if (this.id == "=") {
+                var result = eval(history);
+                showOutput(result);
+                showHistory("");
+              } else {
+                history = history + this.id;
+                showHistory(history);
+                showOutput("");
+              }
+            }
+          }
+        });
+      }
+
+      var number = document.getElementsByClassName("number");
+      for (var i = 0; i < number.length; i++) {
+        number[i].addEventListener("click", function () {
+          var output = getFromOutput();
+          if (output != NaN) {
+            output = output + this.id;
+            showOutput(output);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
