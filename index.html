@@ -54,9 +54,7 @@
         return document.getElementById("history-value").innerText;
       }
       function showOutput(number) {
-        if (number.length < 19) {
-          document.getElementById("output-value").innerText = number;
-        }
+        document.getElementById("output-value").innerText = number;
       }
       function getFromOutput() {
         return document.getElementById("output-value").innerText;
@@ -77,7 +75,7 @@
           } else {
             var output = getFromOutput();
             var history = getFromHistory();
-            if (output == "" && history !== "") {
+            if (output == "" && history != "") {
               if (isNaN(history[history.length - 1])) {
                 history = history.substr(0, history.length - 1);
               }
